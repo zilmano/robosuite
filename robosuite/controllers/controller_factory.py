@@ -5,6 +5,7 @@ from .osc import OperationalSpaceController
 from .joint_vel import JointVelocityController
 from .joint_pos import JointPositionController
 from .joint_tor import JointTorqueController
+from .locomotion_joint_tor import LocomotionJointTorqueController
 from .interpolators.linear_interpolator import LinearInterpolator
 
 import json
@@ -162,9 +163,9 @@ def controller_factory(name, params):
         return JointTorqueController(interpolator=interpolator, **params)
 
     if name == "LOCOMOTION_JOINT_TORQUE":
-        return JointTorqueController(interpolator=interpolator, **params)
+        return LocomotionJointTorqueController(interpolator=interpolator, **params)
 
-    raise ValueError("Unknown controller name: {}".format(name)
+    raise ValueError("Unknown controller name: {}".format(name))
 
 
 

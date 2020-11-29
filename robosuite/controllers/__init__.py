@@ -3,7 +3,7 @@ from .osc import OperationalSpaceController
 from .joint_pos import JointPositionController
 from .joint_vel import JointVelocityController
 from .joint_tor import JointTorqueController
-from .locomotion_join_tor import LocomotionJointTorqueController
+from .locomotion_joint_tor import LocomotionJointTorqueController
 
 
 CONTROLLER_INFO = {
