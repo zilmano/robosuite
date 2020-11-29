@@ -6,7 +6,7 @@ from robosuite.environments.robot_env import RobotEnv
 from robosuite.models.arenas import TableArena
 from robosuite.models.objects import PotWithHandlesObject
 from robosuite.models.tasks import ManipulationTask, UniformRandomSampler
-from robosuite.models.robots import check_bimanual
+from robosuite.models.robots import check_type,RobotType
 
 import robosuite.utils.transform_utils as T
 
@@ -512,9 +512,11 @@ class TwoArmLift(RobotEnv):
 
         # Lastly, check to make sure all inputted robot names are of their correct type (bimanual / not bimanual)
         for robot in robots:
-            if check_bimanual(robot) != is_bimanual:
+            if check_type(robot,RobotType.bimanual) != is_bimanual:
                 raise ValueError("Error: For {} configuration, expected bimanual check to return {}; "
-                                 "instead, got {}.".format(self.env_configuration, is_bimanual, check_bimanual(robot)))
+                                 "instead, got {}.".format(self.env_configuration, is_bimanual, 
+                                                           check_type(robot,RobotType.bimanual)))
+
 
     @property
     def _handle_0_xpos(self):

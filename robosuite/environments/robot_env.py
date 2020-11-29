@@ -1,10 +1,9 @@
-import numpy as np
-
 from robosuite.environments.base import MujocoEnv
 
 from robosuite.robots.single_arm import SingleArm
 from robosuite.robots.bimanual import Bimanual
-from robosuite.models.robots import check_bimanual
+from robosuite.robots.quadruped import Quadruped
+from robosuite.models.robots import check_type, RobotType
 
 from robosuite.controllers import reset_controllers
 
@@ -437,7 +436,7 @@ class RobotEnv(MujocoEnv):
                         collisions[idx] = True
                         break
                 # Bimanual case
-                else:
+                elif robot.arm_type == "bimanual":
                     for arm in robot.arms:
                         if (
                                 self.sim.model.geom_id2name(contact.geom1)
@@ -447,6 +446,8 @@ class RobotEnv(MujocoEnv):
                         ):
                             collisions[idx] = True
                             break
+                else:
+                    raise NotImplementedError("_checking_gripper_contact is not available for robots without arms")
         return collisions
 
     def _check_arm_contact(self):
@@ -458,6 +459,8 @@ class RobotEnv(MujocoEnv):
         """
         collisions = [False] * self.num_robots
         for idx, robot in enumerate(self.robots):
+            if robot.arm_type == "none":
+               raise NotImplementedError("_checking_arm_contact is not available for robots without arms")
             for contact in self.sim.data.contact[: self.sim.data.ncon]:
                 # Single arm case and Bimanual case are the same
                 if (
@@ -506,18 +509,30 @@ class RobotEnv(MujocoEnv):
         # Loop through robots and instantiate Robot object for each
         for idx, (name, config) in enumerate(zip(self.robot_names, self.robot_configs)):
             # Create the robot instance
-            if not check_bimanual(name):
+            if check_type(name, RobotType.single_arm):
                 self.robots[idx] = SingleArm(
                     robot_type=name,
                     idn=idx,
                     **config
                 )
-            else:
+            elif check_type(name, RobotType.bimanual):
                 self.robots[idx] = Bimanual(
                     robot_type=name,
                     idn=idx,
                     **config
                 )
+            elif check_type(name, RobotType.quadruped):
+                config.pop('gripper_type', None)
+                config.pop('gripper_visualization', None)
+                self.robots[idx] = Quadruped(
+                    robot_type=name,
+                    idn=idx,
+                    **config
+                )
+            else:
+                raise ValueError(f"provided Robot {name} does not belong to any known robot type. "
+                                  "Please make sure the robot name is spelled correctly, and if so"
+                                  ", whether it is associated with any registered robots")
 
             # Now, load the robot models
             self.robots[idx].load_model()

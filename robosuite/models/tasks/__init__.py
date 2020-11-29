@@ -5,3 +5,4 @@ from .placement_sampler import (
 )
 
 from .manipulation_task import ManipulationTask
+from .locomotion_task import LocomotionTask

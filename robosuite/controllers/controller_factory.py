@@ -161,4 +161,12 @@ def controller_factory(name, params):
     if name == "JOINT_TORQUE":
         return JointTorqueController(interpolator=interpolator, **params)
 
-    raise ValueError("Unknown controller name: {}".format(name))
+    if name == "LOCOMOTION_JOINT_TORQUE":
+        return JointTorqueController(interpolator=interpolator, **params)
+
+    raise ValueError("Unknown controller name: {}".format(name)
+
+
+
+
+

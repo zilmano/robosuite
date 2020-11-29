@@ -7,9 +7,19 @@ from robosuite.utils.transform_utils import euler2mat, mat2quat
 
 import numpy as np
 
-# List of bimanaul robots -- must be maintained manually
-BIMANUAL_ROBOTS = {"Baxter"}
+from enum import Enum
 
+# List of bimanaul robots -- must be maintained manually
+
+
+class RobotType(Enum):
+    single_arm = 0
+    bimanual = 1
+    quadruped = 2
+
+
+BIMANUAL_ROBOTS = {"Baxter"}
+QUADRUPED_ROBOTS = {"Laikago"}
 REGISTERED_ROBOTS = {}
 
 
@@ -41,7 +51,18 @@ def create_robot(robot_name, *args, **kwargs):
     return REGISTERED_ROBOTS[robot_name](*args, **kwargs)
 
 
-def check_bimanual(robot_name):
+def check_type(robot_name, robot_type):
+    if robot_type == RobotType.quadruped:
+        return robot_name in QUADRUPED_ROBOTS
+    elif robot_type == RobotType.bimanual:
+        return robot_name in BIMANUAL_ROBOTS
+    elif robot_type == RobotType.single_arm:
+        return robot_name not in BIMANUAL_ROBOTS and robot_name not in QUADRUPED_ROBOTS
+    else:
+        raise ValueError
+
+
+'''def check_bimanual(robot_name):
     """
     Utility function that returns whether the inputted robot_name is a bimanual robot or not
 
@@ -52,6 +73,7 @@ def check_bimanual(robot_name):
         bool: True if the inputted robot is a bimanual robot
     """
     return robot_name in BIMANUAL_ROBOTS
+'''
 
 
 class RobotModelMeta(type):
@@ -100,7 +122,7 @@ class RobotModel(MujocoXML, metaclass=RobotModelMeta):
                 np.fromstring(self.worldbody.find(".//body[@name='{}']".format(self.eef_name))
                               .attrib.get("quat", "1 0 0 0"),
                               dtype=np.float64, sep=" ")[[1, 2, 3, 0]]
-        else:   # "bimanual" case
+        elif self.arm_type == "bimanual":   # "bimanual" case
             self.hand_rotation_offset = {}
             for arm in ("right", "left"):
                 self.hand_rotation_offset[arm] = \
@@ -172,7 +194,7 @@ class RobotModel(MujocoXML, metaclass=RobotModelMeta):
         """
         node = self.worldbody.find("./body[@name='{}']".format(self._root_))
         # xml quat assumes w,x,y,z so we need to convert to this format from outputted x,y,z,w format from fcn
-        rot = mat2quat(euler2mat(rot))[[3,0,1,2]]
+        rot = mat2quat(euler2mat(rot))[[3, 0, 1, 2]]
         node.set("quat", array_to_string(rot))
 
     def set_joint_attribute(self, attrib, values):

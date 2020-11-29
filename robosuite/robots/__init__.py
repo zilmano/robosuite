@@ -1,5 +1,6 @@
 from .single_arm import SingleArm
 from .bimanual import Bimanual
+from .quadruped import Quadruped
 
 from robosuite.models.robots.robot_model import REGISTERED_ROBOTS, BIMANUAL_ROBOTS
 

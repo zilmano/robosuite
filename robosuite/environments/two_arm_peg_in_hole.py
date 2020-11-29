@@ -7,7 +7,7 @@ from robosuite.utils.mjcf_utils import CustomMaterial, array_to_string
 from robosuite.models.objects import CylinderObject, PlateWithHoleObject
 from robosuite.models.arenas import EmptyArena
 from robosuite.models import MujocoWorldBase
-from robosuite.models.robots import check_bimanual
+from robosuite.models.robots import check_type, RobotType
 
 
 class TwoArmPegInHole(RobotEnv):
@@ -521,6 +521,7 @@ class TwoArmPegInHole(RobotEnv):
 
         # Lastly, check to make sure all inputted robot names are of their correct type (bimanual / not bimanual)
         for robot in robots:
-            if check_bimanual(robot) != is_bimanual:
+            if check_type(robot,RobotType.bimanual) != is_bimanual:
                 raise ValueError("Error: For {} configuration, expected bimanual check to return {}; "
-                                 "instead, got {}.".format(self.env_configuration, is_bimanual, check_bimanual(robot)))
+                                 "instead, got {}.".format(self.env_configuration, is_bimanual, 
+                                                           check_type(robot,RobotType.bimanual)))
