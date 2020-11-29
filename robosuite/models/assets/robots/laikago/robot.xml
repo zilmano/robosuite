@@ -1,0 +1,112 @@
+<mujoco model="laikago">
+    <asset>
+        <mesh name="chassis_vhacd_mod_zup" file="meshes/chassis_vhacd_mod_zup.stl" />
+        <mesh name="hip_motor_mirror" file="meshes/hip_motor_mirror.stl" />
+        <mesh name="upper_leg_right_vhacd" file="meshes/upper_leg_right_vhacd.stl" />
+        <mesh name="lower_leg_3_collision" file="meshes/lower_leg_3_collision.stl" />
+        <mesh name="hip_motor" file="meshes/hip_motor.stl" />
+        <mesh name="upper_leg_left_vhacd" file="meshes/upper_leg_left_vhacd.stl" />
+    </asset>
+    <actuator>
+        <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="FR_hip_joint" name="FR_hip_motor"/>
+        <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="FL_hip_joint" name="FL_hip_motor"/>
+        <motor ctrllimited="true" ctrlrange="-40.0 40.0" joint="RR_hip_joint" name="RR_hip_motor"/>
+        <motor ctrllimited="true" ctrlrange="-40.0 40.0" joint="RL_hip_joint" name="RL_hip_motor"/>
+        <motor ctrllimited="true" ctrlrange="-9.0 9.0" joint="FR_thigh_joint" name="FR_thigh_motor"/>
+        <motor ctrllimited="true" ctrlrange="-9.0 9.0" joint="FL_thigh_joint" name="FL_thigh_motor"/>
+        <motor ctrllimited="true" ctrlrange="-9.0 9.0" joint="RR_thigh_joint" name="RR_thigh_motor"/>
+        <motor ctrllimited="true" ctrlrange="-9.0 9.0" joint="RL_thigh_joint" name="RL_thigh_motor"/>
+        <motor ctrllimited="true" ctrlrange="-9.0 9.0" joint="FR_calf_joint" name="FR_calf_motor"/>
+        <motor ctrllimited="true" ctrlrange="-9.0 9.0" joint="FL_calf_joint" name="FL_calf_motor"/>
+        <motor ctrllimited="true" ctrlrange="-9.0 9.0" joint="RR_calf_joint" name="RR_calf_motor"/>
+        <motor ctrllimited="true" ctrlrange="-9.0 9.0" joint="RL_calf_joint" name="RL_calf_motor"/>
+    </actuator>
+    <worldbody>
+        <body name="chassis" pos="0 0 0.45">
+            <inertial pos="0.002284 -4.1e-05 0.025165" mass="13.715" fullinertia="0.073348887 0.250684593 0.254469458 0.00030338 0.001918218 -7.5402e-05"/>
+            <joint type="free" name="chassis_joint"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="chassis_vhacd_mod_zup" />
+            <!--<geom type="mesh" rgba="1 1 1 1" mesh="chassis_vhacd_mod_zup" name="chassis_collision"/>-->
+            <body name="FR_hip" pos="0.199095 -0.0817145 -0.03" quat="0.500003 0.5 0.499997 0.5">
+                <inertial pos="0.02 0 0" mass="1.095" diaginertia="0.0001 0.0001 0.0001" />
+                <joint name="FR_hip_joint" pos="0 0 0" axis="0 0 1" />
+                <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="hip_motor_mirror" />
+                <geom type="mesh" rgba="1 1 1 1" mesh="hip_motor_mirror" name="FR_hip_collision" />
+                <body name="FR_thigh" pos="-0.053565 0 0">
+                    <inertial pos="0 -0.04 -0.04" mass="1.527" diaginertia="0.0001 0.0001 0.0001" />
+                    <joint name="FR_thigh_joint" pos="0 0 0" axis="-1 0 0" />
+                    <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="upper_leg_right_vhacd" />
+                    <geom type="mesh" rgba="1 1 1 1" mesh="upper_leg_right_vhacd" name="FR_thigh_collision"/>
+                    <body name="FR_calf" pos="0.02069 -0.20833 -0.1422">
+                        <inertial pos="0 -0.186393 -0.0205865" quat="0.494415 0.505524 -0.505524 0.494415" mass="0.341" diaginertia="0.000697746 0.000697746 0.000125" />
+                        <joint name="FR_calf_joint" pos="0 0 0" axis="-1 0 0" />
+                        <geom quat="0.707109 0 0.707105 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="lower_leg_3_collision" />
+                        <geom quat="0.707109 0 0.707105 0" type="mesh" rgba="1 1 1 1" mesh="lower_leg_3_collision" name="FR_calf_collision" />
+                        <geom size="0.0001" pos="0 -0.25 -0.022" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" />
+                        <geom size="0.03" pos="0 -0.25 -0.022" rgba="1 1 1 1" name= "FR_foot_collision" />
+                    </body>
+                </body>
+            </body>
+            <body name="FL_hip" pos="0.199095 0.0817145 -0.03" quat="0.500003 0.5 0.499997 0.5">
+                <inertial pos="-0.02 0 0" mass="1.095" diaginertia="0.0001 0.0001 0.0001" />
+                <joint name="FL_hip_joint" pos="0 0 0" axis="0 0 1" />
+                <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="hip_motor" />
+                <geom type="mesh" rgba="1 1 1 1" mesh="hip_motor" name="FL_hip_collision" />
+                <body name="FL_thigh" pos="0.055855 0 0">
+                    <inertial pos="0 -0.04 -0.04" mass="1.527" diaginertia="0.0001 0.0001 0.0001" />
+                    <joint name="FL_thigh_joint" pos="0 0 0" axis="-1 0 0" />
+                    <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="upper_leg_left_vhacd" />
+                    <geom type="mesh" rgba="1 1 1 1" mesh="upper_leg_left_vhacd" name="FL_thigh_collision" />
+                    <body name="FL_calf" pos="-0.02069 -0.20833 -0.1422">
+                        <inertial pos="0 -0.186393 -0.0205865" quat="0.494415 0.505524 -0.505524 0.494415" mass="0.341" diaginertia="0.000697746 0.000697746 0.000125" />
+                        <joint name="FL_calf_joint" pos="0 0 0" axis="-1 0 0" />
+                        <geom quat="0.707109 0 0.707105 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="lower_leg_3_collision" />
+                        <geom quat="0.707109 0 0.707105 0" type="mesh" rgba="1 1 1 1" mesh="lower_leg_3_collision" name="FL_calf_collision"/>
+                        <geom size="0.0001" pos="0 -0.25 -0.022" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" />
+                        <geom size="0.03" pos="0 -0.25 -0.022" rgba="1 1 1 1" name="FL_foot_collision" />
+                    </body>
+                </body>
+            </body>
+            <body name="RR_hip" pos="-0.238195 -0.0817145 -0.03" quat="0.500003 0.5 0.499997 0.5">
+                <inertial pos="0.02 0 0" mass="1.095" diaginertia="0.0001 0.0001 0.0001" />
+                <joint name="RR_hip_joint" pos="0 0 0" axis="0 0 1" />
+                <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="hip_motor_mirror" />
+                <geom type="mesh" rgba="1 1 1 1" mesh="hip_motor_mirror" name="RR_hip_collision"/>
+                <body name="RR_thigh" pos="-0.053565 0 0">
+                    <inertial pos="0 -0.04 -0.04" mass="1.527" diaginertia="0.0001 0.0001 0.0001" />
+                    <joint name="RR_thigh_joint" pos="0 0 0" axis="-1 0 0" />
+                    <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="upper_leg_right_vhacd" />
+                    <geom type="mesh" rgba="1 1 1 1" mesh="upper_leg_right_vhacd" name="RR_thigh_collision" />
+                    <body name="RR_calf" pos="0.02069 -0.20833 -0.1422">
+                        <inertial pos="0 -0.186393 -0.0205865" quat="0.494415 0.505524 -0.505524 0.494415" mass="0.341" diaginertia="0.000697746 0.000697746 0.000125" />
+                        <joint name="RR_calf_joint" pos="0 0 0" axis="-1 0 0" />
+                        <geom quat="0.707109 0 0.707105 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="lower_leg_3_collision" />
+                        <geom quat="0.707109 0 0.707105 0" type="mesh" rgba="1 1 1 1" mesh="lower_leg_3_collision" name="RR_calf_collision"/>
+                        <geom size="0.0001" pos="0 -0.25 -0.022" contype="0" conaffinity="0" group="1" rgba="1 1 1 1"/>
+                        <geom size="0.03" pos="0 -0.25 -0.022" rgba="1 1 1 1" name="RR_foot_collision"  />
+                    </body>
+                </body>
+            </body>
+            <body name="RL_hip" pos="-0.238195 0.0817145 -0.03" quat="0.500003 0.5 0.499997 0.5">
+                <inertial pos="-0.02 0 0" mass="1.095" diaginertia="0.0001 0.0001 0.0001" />
+                <joint name="RL_hip_joint" pos="0 0 0" axis="0 0 1" />
+                <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="hip_motor" />
+                <geom type="mesh" rgba="1 1 1 1" mesh="hip_motor" name = "RL_hip_collision"/>
+                <body name="RL_thigh" pos="0.055855 0 0">
+                    <inertial pos="0 -0.04 -0.04" mass="1.527" diaginertia="0.0001 0.0001 0.0001" />
+                    <joint name="RL_thigh_joint" pos="0 0 0" axis="-1 0 0" />
+                    <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="upper_leg_left_vhacd" />
+                    <geom type="mesh" rgba="1 1 1 1" mesh="upper_leg_left_vhacd" name="RL_thigh_collision" />
+                    <body name="RL_calf" pos="-0.02069 -0.20833 -0.1422">
+                        <inertial pos="0 -0.186393 -0.0205865" quat="0.494415 0.505524 -0.505524 0.494415" mass="0.341" diaginertia="0.000597746 0.000597746 2.5e-05" />
+                        <joint name="RL_calf_joint" pos="0 0 0" axis="-1 0 0" />
+                        <geom quat="0.707109 0 0.707105 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" mesh="lower_leg_3_collision" />
+                        <geom quat="0.707109 0 0.707105 0" type="mesh" rgba="1 1 1 1" mesh="lower_leg_3_collision" name="RL_calf_collision"/>
+                        <geom size="0.0001" pos="0 -0.25 -0.022" contype="0" conaffinity="0" group="1" rgba="1 1 1 1" />
+                        <geom size="0.03" pos="0 -0.25 -0.022" rgba="1 1 1 1" name="RL_foot_collision" />
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+</mujoco>
