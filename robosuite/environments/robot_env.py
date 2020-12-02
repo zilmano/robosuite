@@ -1,3 +1,4 @@
+import numpy as np
 from robosuite.environments.base import MujocoEnv
 
 from robosuite.robots.single_arm import SingleArm

@@ -10,6 +10,7 @@ from robosuite.robots import Quadruped
 from robosuite.models.arenas import WalkingArena
 from robosuite.models.tasks import LocomotionTask
 
+from robosuite.models.objects import BoxObject, CapsuleObject, BallObject, CylinderObject
 
 class Walk(RobotEnv):
     """
@@ -215,6 +216,7 @@ class Walk(RobotEnv):
             "Error: Expected one single-armed robot! Got {} type instead.".format(type(self.robots[0]))
 
         # Adjust base pose accordingly
+        print("init robo pose:" + str(self.init_robot_pose))
         self.robots[0].robot_model.set_base_xpos(self.init_robot_pose)
         self.robots[0].robot_model.set_base_ori(self.init_robot_ori)
 
@@ -223,6 +225,59 @@ class Walk(RobotEnv):
         # OLEG TODO: allow specifiying sizes for waliking arena floor, and maybe add random generated obs later, terrain type etc....
         self.mujoco_arena = WalkingArena()
 
+        '''tex_attrib = {
+            "type": "cube",
+        }
+        mat_attrib = {
+            "texrepeat": "1 1",
+            "specular": "0.4",
+            "shininess": "0.1",
+        }
+
+        redwood = CustomMaterial(
+            texture="WoodRed",
+            tex_name="redwood",
+            mat_name="redwood_mat",
+            tex_attrib=tex_attrib,
+            mat_attrib=mat_attrib,
+        )'''
+
+        '''cube = BoxObject(
+            name="cube",
+            size_min=[0.6, 0.6, 0.6],  # [0.015, 0.015, 0.015],
+            size_max=[0.6, 0.6, 0.6],  # [0.018, 0.018, 0.018])
+            rgba=[1, 0, 0, 1],
+            material=redwood,
+        )
+
+        ball = BallObject(
+            name="ball",
+            size_min=[1],  # [0.015, 0.015, 0.015],
+            size_max=[1],  # [0.018, 0.018, 0.018])
+            rgba=[1, 1, 0, 1],
+        )
+
+        capsule = CapsuleObject(
+            name="capsule",
+            size_min=[0.5,0.3],  # [0.015, 0.015, 0.015],
+            size_max=[0.5,0.3],  # [0.018, 0.018, 0.018])
+            rgba=[0.5, 0.6, 0, 0.9],
+        )
+
+        cylinder = CylinderObject(
+            name="cylinder",
+            size_min=[1, 1],  # [0.015, 0.015, 0.015],
+            size_max=[1, 1],  # [0.018, 0.018, 0.018])
+            rgba=[0.7, 0.8, 1, 1],
+
+        )'''
+
+
+        '''self.mujoco_objects = OrderedDict([("cube", cube),
+                                           ("ball", ball),
+                                           ("capsule", capsule),
+                                           ("cylinder", cylinder)])'''
+        self.mujoco_objects = None
         if self.use_indicator_object:
             self.mujoco_arena.add_pos_indicator()
 
@@ -232,11 +287,14 @@ class Walk(RobotEnv):
         # task includes arena, robot, and objects of interest
         self.model = LocomotionTask(
             mujoco_arena=self.mujoco_arena, 
-            mujoco_robots= [self.robots[0].robot_model, ],
-            mujoco_objects=None,
+            mujoco_robots=[self.robots[0].robot_model, ],
+            mujoco_objects=self.mujoco_objects,
             visual_objects=None, 
             initializer=None
         )
+
+        self.model.place_objects()
+
 
     def _get_reference(self):
         """
@@ -288,9 +346,19 @@ class Walk(RobotEnv):
             bool: True if cube has been lifted
         """
         chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
-        x_travel_dist = self.sim.data.body_xpos[chassis_body_id][0]
+        #x_travel_dist = self.sim.data.body_xpos[chassis_body_id][0]
+        body_pos = self.sim.data.body_xpos[chassis_body_id]
+        '''
+        print(type(body_pos))
+        print(body_pos)
 
-        return x_travel_dist > 3
+        print("")
+        node = self.model.worldbody.find("./body[@name='{}']".format(
+            self.robots[0].robot_model.robot_base)
+        )
+        from robosuite.utils.mjcf_utils import array_to_string
+        print(f"xml pose:{node.get('pos')}")'''
+        return np.allclose(body_pos, np.array([0., 0., 0.43]))
 
     def _visualization(self):
         """

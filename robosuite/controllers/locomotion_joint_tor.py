@@ -117,11 +117,10 @@ class LocomotionJointTorqueController(LocomotionController):
         assert len(torques) == self.control_dim, "Delta torque must be equal to the robot's joint dimension space!"
 
         self.goal_torque = np.clip(self.scale_action(torques), self.torque_limits[0], self.torque_limits[1])
-        print("goal:" + str(self.goal_torque))
-        print("scale_action:" + str(self.scale_action(torques)))
-        print("limits:" + str(self.torque_limits[0]) + " " + str(self.torque_limits[1]))
-        if self.interpolator is None:
-            print("No interpolator")
+        # OLEGDBG:
+        #print("goal:" + str(self.goal_torque))
+        #print("scale_action:" + str(self.scale_action(torques)))
+        #print("limits:" + str(self.torque_limits[0]) + " " + str(self.torque_limits[1]))
         if self.interpolator is not None:
             self.interpolator.set_goal(self.goal_torque)
 

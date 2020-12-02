@@ -228,8 +228,6 @@ class LocomotionController(object, metaclass=abc.ABCMeta):
         Returns:
             np.array: torques
         """
-        print("torque_compensation::qvel_index " + str(self.qvel_index))
-        print("torque_compensation::qpos_index " + str(self.qpos_index))
         return self.sim.data.qfrc_bias[self.qvel_index]
 
     @property

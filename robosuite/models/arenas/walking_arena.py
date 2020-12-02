@@ -7,7 +7,7 @@ class WalkingArena(Arena):
     """Empty workspace."""
 
     def __init__(self):
-        super().__init__(xml_path_completion("arenas/empty_arena.xml"))
+        super().__init__(xml_path_completion("arenas/walking_arena.xml"))
         self.floor = self.worldbody.find("./geom[@name='floor']")
 
     #OLEG: Leave out for now, maybe reintroduce later only if you want to reconfigure position of

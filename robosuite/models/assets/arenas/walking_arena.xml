@@ -12,16 +12,16 @@
     <!-- Floor -->
     <geom condim="3" material="floorplane" name="floor" pos="0 0 0" size="10 10 .125" type="plane"/>
     <!-- Walls (visual only) -->
-    <geom pos="-4.166666 7.5 5" quat="0.6532815 0.6532815 0.2705981 0.2705981" size="3.533 5 0.01" type="box" name="wall_leftcorner" material="walls_mat"/>
-    <geom pos="-4.166666 -7.5 5" quat="0.6532815 0.6532815 -0.2705981 -0.2705981" size="3.533 5 0.01" type="box" name="wall_rightcorner" material="walls_mat"/>
-    <geom pos="4.166666 10 5" quat="0.7071 0.7071 0 0" size="5.8333 5 0.01" type="box" name="wall_left" material="walls_mat"/>
-    <geom pos="4.166666 -10 5" quat="0.7071 -0.7071 0 0" size="5.8333 5 0.01" type="box" name="wall_right" material="walls_mat"/>
-    <geom pos="-6.6667 0 5" quat="0.5 0.5 0.5 0.5" size="5 5 0.01" type="box" name="wall_rear" material="walls_mat"/>
-    <geom pos="10 0 5" quat="0.5 0.5 -0.5 -0.5" size="10 5 0.01" type="box"  name="wall_front" material="walls_mat"/>
+    <geom pos="-4.166666 7.5 5" quat="0.6532815 0.6532815 0.2705981 0.2705981" size="3.533 5 0.01" type="box" group="1" name="wall_leftcorner" material="walls_mat"/>
+    <geom pos="-4.166666 -7.5 5" quat="0.6532815 0.6532815 -0.2705981 -0.2705981" size="3.533 5 0.01" type="box" group="1" name="wall_rightcorner" material="walls_mat"/>
+    <geom pos="4.166666 10 5" quat="0.7071 0.7071 0 0" size="5.8333 5 0.01" type="box" name="wall_left" group="1" material="walls_mat"/>
+    <geom pos="4.166666 -10 5" quat="0.7071 -0.7071 0 0" size="5.8333 5 0.01" type="box" name="wall_right" group="1" material="walls_mat"/>
+    <geom pos="-6.6667 0 5" quat="0.5 0.5 0.5 0.5" size="5 5 0.01" type="box" name="wall_rear" group="1" material="walls_mat"/>
+    <geom pos="10 0 5" quat="0.5 0.5 -0.5 -0.5" size="10 5 0.01" type="box"  name="wall_front" group="1" material="walls_mat"/>
     <light diffuse=".8 .8 .8" dir="0 -.15 -1" directional="false" pos="1 1 4.0" specular="0.3 0.3 0.3" castshadow="false"/>
     <light diffuse=".8 .8 .8" dir="0 -.15 -1" directional="false" pos="-3. -3. 4.0" specular="0.3 0.3 0.3" castshadow="false"/>
     <!-- front view -->
-    <camera mode="fixed" name="frontview" pos="5 4 0.2" quat="0.56 0.43 0.43 0.56"/>
+    <camera mode="fixed" name="frontview" pos="0 -3 1.5" axisangle="1 0 0 1.308" />
     <!-- bird view -->
     <camera mode="fixed" name="birdview" pos="-0.2 0 3.0" quat="0.7071 0 0 0.7071"/>
     <!-- side view -->
