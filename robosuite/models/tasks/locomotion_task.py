@@ -64,6 +64,7 @@ class LocomotionTask(MujocoWorldBase):
         visual_objects = deepcopy(visual_objects)
 
         # xml manifestations of all objects
+        self.objects = []
         self.merge_objects(mujoco_objects)
         self.merge_objects(visual_objects, is_visual=True)
 
@@ -129,8 +130,44 @@ class LocomotionTask(MujocoWorldBase):
         """
         Places objects randomly until no collisions or max iterations hit.
         """
-        pos_arr, quat_arr = self.initializer.sample()
+        import numpy as np
+
+        '''pos_arr, quat_arr = self.initializer.sample()
         for i in range(len(self.objects)):
-            self.objects[i].set("pos", array_to_string(pos_arr[i]))
-            self.objects[i].set("quat", array_to_string(quat_arr[i]))
-        return pos_arr, quat_arr
+            pos = [(np.random.uniform(0, 1,1)-0.5)*self.floor_size,
+                   (np.random.uniform(0, 1,1)-0.5)*self.floor_size, 0]
+            quat = np.random.uniform(0, 1, 4)
+            self.objects[i].set("pos", array_to_string(pos))
+            self.objects[i].set("quat", array_to_string(quat))
+        
+         i = 0 
+        pos = [-2,1.56,0]
+        quat = np.random.uniform(0, 1, 4)
+        '''
+
+        '''i = 0
+        pos = [-2,1.56,0]
+        quat = np.random.uniform(0, 1, 4)
+        self.objects[i].set("pos", array_to_string(pos))
+        self.objects[i].set("quat", array_to_string(quat))
+
+        i = 1
+        pos = [-0.5, -2.6, 0]
+        quat = np.random.uniform(0, 1, 4)
+        self.objects[i].set("pos", array_to_string(pos))
+        self.objects[i].set("quat", array_to_string(quat))
+
+        i = 2
+        pos = [3, 0.5, 0]
+        quat = np.random.uniform(0, 1, 4)
+        self.objects[i].set("pos", array_to_string(pos))
+        self.objects[i].set("quat", array_to_string(quat))
+
+        i = 3
+        pos = [-4.3, -2.98, 0]
+        quat = np.random.uniform(0, 1, 4)
+        self.objects[i].set("pos", array_to_string(pos))
+        self.objects[i].set("quat", array_to_string(quat))'''
+
+
+

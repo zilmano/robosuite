@@ -197,7 +197,13 @@ class Walk(RobotEnv):
 
         # use a shaping reward
         elif self.reward_shaping:
-            pass
+            chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
+            # x_travel_dist = self.sim.data.body_xpos[chassis_body_id][0]
+            body_pos = self.sim.data.body_xpos[chassis_body_id]
+            print("body pos type:" + str(type(body_pos)) + " body pos:" + str(body_pos))
+            reward = -1*np.linalg.norm(body_pos-np.array([0., 0., 0.43]))
+            print(reward)
+            
 
         # Scale reward if requested
         if self.reward_scale is not None:

@@ -173,7 +173,8 @@ class Quadruped(Robot):
             self.sim.model.get_joint_qpos_addr(self.robot_model.robot_base_free_joint)
         self._ref_chassis_pos_indexes = [x for x in range(chassis_free_joint_addr_start,
                                                           chassis_free_joint_addr_end)]
-
+        (chassis_free_joint_addr_start, chassis_free_joint_addr_end) = \
+            self.sim.model.get_joint_qvel_addr(self.robot_model.robot_base_free_joint)
         #print("CHASSIS:" + str(self._ref_chassis_pos_indexes))
         self._ref_chassis_vel_indexes = [x for x in range(chassis_free_joint_addr_start,
                                                           chassis_free_joint_addr_end)]
@@ -203,6 +204,7 @@ class Quadruped(Robot):
 
         # Update the controller goal if this is a new policy step
         if policy_step:
+            #print(f"action:{action}")
             self.controller.set_goal(action)
 
         # Now run the controller for a step
@@ -213,8 +215,11 @@ class Quadruped(Robot):
         self.torques = np.clip(torques, low, high)
 
         # Apply joint torque control
-        #print("Quadruped::Control::Applied Torques {}".format(self.torques))
-        #print("Quadruped::Control::actuator indexes {}".format(self._ref_joint_torq_actuator_indexes))
+        #if policy_step:
+            #print("Quadruped::Control::Applied Torques {}".format(self.torques))
+            #print("Quadruped::Control::actuator indexes {}".format(self._ref_joint_torq_actuator_indexes))
+
+            
         self.sim.data.ctrl[self._ref_joint_torq_actuator_indexes] = self.torques
 
         # If this is a policy step, also update buffers holding recent values of interest
@@ -254,7 +259,7 @@ class Quadruped(Robot):
         )
 
         di[pf + "chassis_vel"] = np.array(
-            [self.sim.data.qpos[x] for x in self._ref_chassis_vel_indexes]
+            [self.sim.data.qvel[x] for x in self._ref_chassis_vel_indexes]
         )
 
         di[pf + "joint_pos"] = np.array(

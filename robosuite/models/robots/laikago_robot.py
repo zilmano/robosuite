@@ -35,9 +35,11 @@ class Laikago(RobotModel):
     def init_qpos(self):
         # TODO: Determine which start is better
         # return np.array([-0.5538, -0.8208, 0.4155, 1.8409, -0.4955, 0.6482, 1.9628])
-        return np.array([ 6.98325e-06, -0.00573244, 0.0101778, -4.53138e-06,
+        '''return np.array([ 6.98325e-06, -0.00573244, 0.0101778, -4.53138e-06,
                          -0.00573432, 0.0101795, 4.49748e-06, -0.00603851, 0.0107461,
-                         -5.79075e-06, -0.00604182, 0.0107516])
+                         -5.79075e-06, -0.00604182, 0.0107516])'''
+        return np.zeros([self.dof])
+
 
     @property
     def base_xpos_offset(self):

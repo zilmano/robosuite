@@ -150,8 +150,10 @@ class LocomotionJointTorqueController(LocomotionController):
             self.current_torque = np.array(self.goal_torque)
 
         # Add gravity compensation
-        self.torques = self.current_torque + self.torque_compensation
-
+        #print("goal torque:" + str(self.goal_torque))
+        #self.torques = self.current_torque + self.torque_compensation
+        self.torques = self.current_torque
+        #print("goal torque w compenstation:" + str(self.goal_torque))
         # Always run superclass call for any cleanups at the end
         super().run_controller()
 
