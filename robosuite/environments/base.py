@@ -172,7 +172,7 @@ class MujocoEnv(metaclass=EnvMeta):
         self.mjpy_model = load_model_from_xml(xml_string) if xml_string else self.model.get_model(mode="mujoco_py")
         
         # OLEG DBG: remove dbg line:
-        self.model.save_model("locomotion_task_mjcf.xml")
+        #self.model.save_model("locomotion_task_mjcf.xml")
 
         # Create the simulation instance and run a single step to make sure changes have propagated through sim state
         self.sim = MjSim(self.mjpy_model)
