@@ -320,6 +320,7 @@ class MujocoEnv(metaclass=EnvMeta):
         # done if number of elapsed timesteps is greater than horizon
         self.done = (self.timestep >= self.horizon) and not self.ignore_done
         if self.done:
+            chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
             body_pos = self.sim.data.body_xpos[chassis_body_id]
             print("Reward: {} body pos:{}".format(reward, body_pos))
 
