@@ -192,22 +192,29 @@ class Walk(RobotEnv):
         reward = 0.
 
         # sparse completion reward
-        if self._check_success():
-            reward = 2.25
+        '''if self._check_success():
+            reward = 2.25'''
 
         # use a shaping reward
-        elif self.reward_shaping:
+        if self.reward_shaping:
             chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
             # x_travel_dist = self.sim.data.body_xpos[chassis_body_id][0]
             body_pos = self.sim.data.body_xpos[chassis_body_id]
             #print("body pos type:" + str(type(body_pos)) + " body pos:" + str(body_pos))
-            reward = -1*np.linalg.norm(body_pos-np.array([0., 0., 0.43]))
+            ctrl_norm = np.linalg.norm(
+                self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes])
+            reward = -1*((10*(body_pos[2]-0.4))**2)-0.3*ctrl_norm
+            #ctrls = self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes]
+            #env.render()
+            #print(f"torques {ctrls}")
+            #print(f"torque norm {ctrl_norm}")
+            #print(f"body xpos: {body_pos}")
             #print(reward)
             
 
         # Scale reward if requested
         if self.reward_scale is not None:
-            reward *= self.reward_scale / 2.25
+            reward *= self.reward_scale
 
         return reward
 
