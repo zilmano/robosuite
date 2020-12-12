@@ -203,7 +203,7 @@ class Walk(RobotEnv):
             #print("body pos type:" + str(type(body_pos)) + " body pos:" + str(body_pos))
             ctrl_norm = np.linalg.norm(
                 self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes])
-            reward = -1*((10*(body_pos[2]-0.4))**2)-0.3*ctrl_norm
+            reward = -1*((10*(body_pos[2]-0.4))**2)-0.1*(ctrl_norm**2)
             #ctrls = self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes]
             #env.render()
             #print(f"torques {ctrls}")
