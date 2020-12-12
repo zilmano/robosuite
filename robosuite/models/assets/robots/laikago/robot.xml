@@ -123,10 +123,10 @@
                 <inertial pos="-0.000482 0.02001 -0.031996" quat="0.999848 -0.00577968 -0.0153453 0.00595156" mass="1.528" diaginertia="0.00992391 0.00928096 0.00177389" />
                 <joint name="RL_thigh_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-0.523599 3.92699" />
                 <!-- <geom mesh="thigh_mirror" pos="0 0 0" class="viz" quat="1 0 0 0"/> -->
-                <geom size="0.125 0.017 0.0215" pos="0 0 -0.125" quat="0.707107 0 0.707107 0" type="box" class="coll" />
+                <geom size="0.125 0.017 0.0215" pos="0 0 -0.125" quat="0.707107 0 0.707107 0" type="box" rgba="0.2 0.2 0.2 1" class="coll" />
                 <body name="RL_calf" pos="0 0 -0.25">
                     <inertial pos="-0.00175826 -0.000305053 -0.14862" quat="0.712055 -0.000143547 -0.000911446 0.702123" mass="0.301" diaginertia="0.00698385 0.00696904 5.18431e-05" />
-                    <joint name="RL_calf_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.77507 -0.610865" />
+                    <joint name="RL_calf_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.77507 -0.610865" class="real_joint" />
                     <!--<geom mesh="calf" pos="0 0 0" class="viz" quat="1 0 0 0"/>-->
                     <geom size="0.125 0.008 0.008" pos="0 0 -0.125" quat="0.707107 0 0.707107 0" type="box" class="coll" />
                     <!-- RL_foot -->
