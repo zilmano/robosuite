@@ -115,13 +115,13 @@
         </body>
         <body name="RL_hip" pos="-0.21935 0.0875 0">
             <inertial pos="0.00108591 0.0125067 0.000598358" quat="0.611962 0.613003 -0.341697 0.364655" mass="1.58257" diaginertia="0.00290099 0.00281591 0.00145377" />
-            <joint name="RL_hip_joint" pos="0 0 0" axis="1 0 0" limited="true" range="-0.872665 1.0472" />
+            <joint name="RL_hip_joint" pos="0 0 0" axis="1 0 0" limited="true" range="-0.872665 1.0472" class="real_joint" />
             <!--<geom mesh="hip" pos="0 0 0" class="viz" quat="0 0 1 0"/>-->
             <geom size="0.041 0.04" pos="0 -0.021 0" quat="0.707107 0.707107 0 0" type="cylinder" rgba="0.2 0.2 0.2 1" class="coll" />
             <geom size="0.044 0.04" pos="0 0.059 0" quat="0.707107 0.707107 0 0" type="cylinder" class="coll"/>
             <body name="RL_thigh" pos="0 0.037 0">
                 <inertial pos="-0.000482 0.02001 -0.031996" quat="0.999848 -0.00577968 -0.0153453 0.00595156" mass="1.528" diaginertia="0.00992391 0.00928096 0.00177389" />
-                <joint name="RL_thigh_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-0.523599 3.92699" />
+                <joint name="RL_thigh_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-0.523599 3.92699" class="real_joint" />
                 <!-- <geom mesh="thigh_mirror" pos="0 0 0" class="viz" quat="1 0 0 0"/> -->
                 <geom size="0.125 0.017 0.0215" pos="0 0 -0.125" quat="0.707107 0 0.707107 0" type="box" rgba="0.2 0.2 0.2 1" class="coll" />
                 <body name="RL_calf" pos="0 0 -0.25">
