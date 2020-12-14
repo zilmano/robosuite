@@ -16,7 +16,7 @@
             <geom group="1"/>
         </default>
         <default class="real_joint">
-            <joint stiffness="0.3" damping="0.3" armature="0.0"/>
+            <joint stiffness="3" damping="1" armature="0.1"/>
         </default>
     </default>
     <actuator>
