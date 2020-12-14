@@ -11,6 +11,8 @@ from robosuite.models.arenas import WalkingArena
 from robosuite.models.tasks import LocomotionTask
 
 from robosuite.models.objects import BoxObject, CapsuleObject, BallObject, CylinderObject
+from robosuite.utils.transform_utils import mat2euler, quat2mat
+
 
 class StandUp(RobotEnv):
     """
@@ -201,9 +203,16 @@ class StandUp(RobotEnv):
             # x_travel_dist = self.sim.data.body_xpos[chassis_body_id][0]
             body_pos = self.sim.data.body_xpos[chassis_body_id]
             #print("body pos type:" + str(type(body_pos)) + " body pos:" + str(body_pos))
+            quat = np.array(
+                [self.sim.data.qpos[x] for x in self.robots[0]._ref_chassis_pos_indexes]
+            )[3:]
+            # print("body pos type:" + str(type(body_pos)) + " body pos:" + str(body_pos))
+            mat = quat2mat(quat)
+            euler = mat2euler(mat)
+            pitch = euler[1]
             ctrl_norm = np.linalg.norm(
                 self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes])
-            reward = -1*((10*(body_pos[2]-0.4))**2)-0.1*(ctrl_norm**2)
+            reward = -1*((10*(body_pos[2]-0.37))**2)-0.2*(ctrl_norm**2)-3*abs(pitch)
             #ctrls = self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes]
             #env.render()
             #print(f"torques {ctrls}")
