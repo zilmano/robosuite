@@ -218,7 +218,7 @@ class StandUp(RobotEnv):
 
             #ctrls = self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes]
             #env.render()
-            #print(f"torques {ctrls}")
+            #print(f"torques {ctrls}")ls
             #print(f"torque norm {ctrl_norm}")
             #print(f"body xpos: {body_pos}")
             #print(reward)
@@ -334,7 +334,11 @@ class StandUp(RobotEnv):
         Resets simulation internal configurations.
         """
         super()._reset_internal()
-
+        if self.init_robot_pose = (0, 0, 0):
+            self.sim.data.qpos[self.robots[0]._ref_joint_pos_indexes] = \
+                np.zeros(self.robots[0].dof)
+            self.sim.data.qvel[self.robots[0]._ref_joint_vel_indexes] = \
+                np.zeros(self.robots[0].dof)   v
         # Reset all object positions using initializer sampler if we're not directly loading from an xml
         if not self.deterministic_reset:
             #OLEG TODO: add randomized start z axis postion for the robot?
