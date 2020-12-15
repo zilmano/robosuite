@@ -11,6 +11,8 @@ from robosuite.models.arenas import WalkingArena
 from robosuite.models.tasks import LocomotionTask
 
 from robosuite.models.objects import BoxObject, CapsuleObject, BallObject, CylinderObject
+from robosuite.utils.transform_utils import mat2euler, quat2mat
+
 
 class Walk(RobotEnv):
     """
@@ -108,8 +110,8 @@ class Walk(RobotEnv):
         controller_configs=None,
         use_camera_obs=True,
         use_object_obs=True,
-        init_robot_pose = (0, 0, 0.45),
-        init_robot_ori = (0, 0, 0),
+        init_robot_pose=(0,  0,  0.45),
+        init_robot_ori=(0, 0, 0),
         reward_scale=1.0,
         reward_shaping=False,
         use_indicator_object=False,
@@ -196,27 +198,56 @@ class Walk(RobotEnv):
             reward = 2.25'''
 
         # use a shaping reward
-        if self.reward_shaping:
-            chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
-            # x_travel_dist = self.sim.data.body_xpos[chassis_body_id][0]
-            body_pos = self.sim.data.body_xpos[chassis_body_id]
-            #print("body pos type:" + str(type(body_pos)) + " body pos:" + str(body_pos))
-            ctrl_norm = np.linalg.norm(
-                self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes])
-            reward = -1*((10*(body_pos[2]-0.4))**2)-0.1*(ctrl_norm**2)
-            #ctrls = self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes]
-            #env.render()
-            #print(f"torques {ctrls}")
-            #print(f"torque norm {ctrl_norm}")
-            #print(f"body xpos: {body_pos}")
-            #print(reward)
-            
+
+        vel_x, vel_y, vel_z = \
+                [self.sim.data.qvel[x] for x in self.robots[0]._ref_chassis_vel_indexes[:3]]
+        ctrl_norm = np.linalg.norm(
+        self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes])
+        reward = vel_x - 0.2*vel_y - 0.2*vel_z - 0.03*(ctrl_norm**2) + 0.2
+        #ctrls = self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes]
+        #env.render()
+        #print(f"torques {ctrls}")
+        #print(f"torque norm {ctrl_norm}")
+        #print(f"body xpos: {body_pos}")
+        #print(reward)
+
 
         # Scale reward if requested
         if self.reward_scale is not None:
             reward *= self.reward_scale
 
         return reward
+
+    def _post_action(self, action):
+        """
+        Run any necessary visualization after running the action
+
+        Args:
+            action (np.array): Action being passed during this timestep
+
+        Returns:
+            3-tuple:
+
+                - (float) reward from the environment
+                - (bool) whether the current episode is completed or not
+                - (dict) empty dict to be filled with information by subclassed method
+
+        """
+        reward, done, info = super()._post_action(action)
+        chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
+        body_pos_z = self.sim.data.body_xpos[chassis_body_id][2]
+        quat = np.array(
+            [self.sim.data.qpos[x] for x in self.robots[0]._ref_chassis_pos_indexes]
+        )[3:]
+        # print("body pos type:" + str(type(body_pos)) + " body pos:" + str(body_pos))
+        mat = quat2mat(quat)
+        euler = mat2euler(mat)
+        roll, pitch = euler[:2]
+        if abs(roll > 0.785) or abs(pitch > 0.785) or body_pos_z < 0.15:
+            done = True
+            reward = -10
+        return reward, done, info
+
 
     def _load_model(self):
         """
@@ -322,6 +353,10 @@ class Walk(RobotEnv):
         Resets simulation internal configurations.
         """
         super()._reset_internal()
+        self.sim.data.qpos[self.robots[0]._ref_joint_pos_indexes] = \
+            np.zeros(self.robots[0].dof)
+        self.sim.data.qvel[self.robots[0]._ref_joint_vel_indexes] = \
+            np.zeros(self.robots[0].dof)
 
         # Reset all object positions using initializer sampler if we're not directly loading from an xml
         if not self.deterministic_reset:
