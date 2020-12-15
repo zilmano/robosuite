@@ -212,7 +212,10 @@ class StandUp(RobotEnv):
             pitch = euler[1]
             ctrl_norm = np.linalg.norm(
                 self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes])
-            reward = -1*((10*(body_pos[2]-0.37))**2)-0.2*(ctrl_norm**2)-3*abs(pitch)
+            reward = -1*((10*(body_pos[2]-0.37))**2)-0.03*(ctrl_norm**2)-3*abs(pitch) \
+                     - 0.2*((10*body_pos[0])**2+(10*body_pos[1])**2)
+
+
             #ctrls = self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes]
             #env.render()
             #print(f"torques {ctrls}")
