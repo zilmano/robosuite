@@ -8,7 +8,7 @@ This **robosuite** fork contains the robosuite locomotion project for CS391 Robo
 
 * Added Support for quadruped locomotion simulation
 * Added two quadruped robots A1 and Laikago
-* Added tasks, Walk, StandUp, and ClimbStairs (reward function not be set at all for ClimbStairs, for the two other ones reward shaping requires tuning)
+* Added tasks, Walk, StandUp, and ClimbStairs (reward function was not defined at all for ClimbStairs, for the two other ones reward shaping requires tuning)
 
 Since this is a robosuite fork, set-up the code and install just like the origial repository, please see here for details:
 https://robosuite.ai/docs/installation.html
