@@ -191,38 +191,18 @@ class StandUp(RobotEnv):
         Returns:
             float: reward value
         """
-        reward = 0.
-
-        # sparse completion reward
-        '''if self._check_success():
-            reward = 2.25'''
-
-        # use a shaping reward
-        if self.reward_shaping:
-            chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
-            # x_travel_dist = self.sim.data.body_xpos[chassis_body_id][0]
-            body_pos = self.sim.data.body_xpos[chassis_body_id]
-            #print("body pos type:" + str(type(body_pos)) + " body pos:" + str(body_pos))
-            quat = np.array(
-                [self.sim.data.qpos[x] for x in self.robots[0]._ref_chassis_pos_indexes]
-            )[3:]
-            # print("body pos type:" + str(type(body_pos)) + " body pos:" + str(body_pos))
-            mat = quat2mat(quat)
-            euler = mat2euler(mat)
-            pitch = euler[1]
-            ctrl_norm = np.linalg.norm(
-                self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes])
-            reward = -1*((10*(body_pos[2]-0.37))**2)-0.03*(ctrl_norm**2)-3*abs(pitch) \
-                     - 0.2*((10*body_pos[0])**2+(10*body_pos[1])**2)
-
-
-            #ctrls = self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes]
-            #env.render()
-            #print(f"torques {ctrls}")ls
-            #print(f"torque norm {ctrl_norm}")
-            #print(f"body xpos: {body_pos}")
-            #print(reward)
-            
+        chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
+        body_pos = self.sim.data.body_xpos[chassis_body_id]
+        quat = np.array(
+            [self.sim.data.qpos[x] for x in self.robots[0]._ref_chassis_pos_indexes]
+        )[3:]
+        mat = quat2mat(quat)
+        euler = mat2euler(mat)
+        pitch = euler[1]
+        ctrl_norm = np.linalg.norm(
+            self.sim.data.ctrl[self.robots[0]._ref_joint_torq_actuator_indexes])
+        reward = -1*((10*(body_pos[2]-0.37))**2)-0.03*(ctrl_norm**2)-3*abs(pitch) \
+                 - 0.2*((10*body_pos[0])**2+(10*body_pos[1])**2)
 
         # Scale reward if requested
         if self.reward_scale is not None:
@@ -241,67 +221,11 @@ class StandUp(RobotEnv):
             "Error: Expected one single-armed robot! Got {} type instead.".format(type(self.robots[0]))
 
         # Adjust base pose accordingly
-        print("init robo pose:" + str(self.init_robot_pose))
         self.robots[0].robot_model.set_base_xpos(self.init_robot_pose)
         self.robots[0].robot_model.set_base_ori(self.init_robot_ori)
 
-
-        # load model for table top workspace
-        # OLEG TODO: allow specifiying sizes for waliking arena floor, and maybe add random generated obs later, terrain type etc....
         self.mujoco_arena = WalkingArena()
 
-        '''tex_attrib = {
-            "type": "cube",
-        }
-        mat_attrib = {
-            "texrepeat": "1 1",
-            "specular": "0.4",
-            "shininess": "0.1",
-        }
-
-        redwood = CustomMaterial(
-            texture="WoodRed",
-            tex_name="redwood",
-            mat_name="redwood_mat",
-            tex_attrib=tex_attrib,
-            mat_attrib=mat_attrib,
-        )'''
-
-        '''cube = BoxObject(
-            name="cube",
-            size_min=[0.6, 0.6, 0.6],  # [0.015, 0.015, 0.015],
-            size_max=[0.6, 0.6, 0.6],  # [0.018, 0.018, 0.018])
-            rgba=[1, 0, 0, 1],
-            material=redwood,
-        )
-
-        ball = BallObject(
-            name="ball",
-            size_min=[1],  # [0.015, 0.015, 0.015],
-            size_max=[1],  # [0.018, 0.018, 0.018])
-            rgba=[1, 1, 0, 1],
-        )
-
-        capsule = CapsuleObject(
-            name="capsule",
-            size_min=[0.5,0.3],  # [0.015, 0.015, 0.015],
-            size_max=[0.5,0.3],  # [0.018, 0.018, 0.018])
-            rgba=[0.5, 0.6, 0, 0.9],
-        )
-
-        cylinder = CylinderObject(
-            name="cylinder",
-            size_min=[1, 1],  # [0.015, 0.015, 0.015],
-            size_max=[1, 1],  # [0.018, 0.018, 0.018])
-            rgba=[0.7, 0.8, 1, 1],
-
-        )'''
-
-
-        '''self.mujoco_objects = OrderedDict([("cube", cube),
-                                           ("ball", ball),
-                                           ("capsule", capsule),
-                                           ("cylinder", cylinder)])'''
         self.mujoco_objects = None
         if self.use_indicator_object:
             self.mujoco_arena.add_pos_indicator()
@@ -339,7 +263,7 @@ class StandUp(RobotEnv):
                 np.zeros(self.robots[0].dof)
             self.sim.data.qvel[self.robots[0]._ref_joint_vel_indexes] = \
                 np.zeros(self.robots[0].dof)
-        # Reset all object positions using initializer sampler if we're not directly loading from an xml
+
         if not self.deterministic_reset:
             #OLEG TODO: add randomized start z axis postion for the robot?
             pass
@@ -366,28 +290,6 @@ class StandUp(RobotEnv):
         di = super()._get_observation()
 
         return di
-
-    def _check_success(self):
-        """
-        Check if cube has been lifted.
-
-        Returns:
-            bool: True if cube has been lifted
-        """
-        chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
-        #x_travel_dist = self.sim.data.body_xpos[chassis_body_id][0]
-        body_pos = self.sim.data.body_xpos[chassis_body_id]
-        '''
-        print(type(body_pos))
-        print(body_pos)
-
-        print("")
-        node = self.model.worldbody.find("./body[@name='{}']".format(
-            self.robots[0].robot_model.robot_base)
-        )
-        from robosuite.utils.mjcf_utils import array_to_string
-        print(f"xml pose:{node.get('pos')}")'''
-        return np.allclose(body_pos, np.array([0., 0., 0.43]))
 
     def _visualization(self):
         """

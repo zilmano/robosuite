@@ -189,19 +189,7 @@ class ClimbStairs(RobotEnv):
             float: reward value
         """
         reward = 0.
-
-        # sparse completion reward
-        if self._check_success():
-            reward = 2.25
-
-        # use a shaping reward
-        elif self.reward_shaping:
-            pass
-
-        # Scale reward if requested
-        if self.reward_scale is not None:
-            reward *= self.reward_scale / 2.25
-
+        # To implement.
         return reward
 
     def _load_model(self):
@@ -218,9 +206,6 @@ class ClimbStairs(RobotEnv):
         self.robots[0].robot_model.set_base_xpos(self.init_robot_pose)
         self.robots[0].robot_model.set_base_ori(self.init_robot_ori)
 
-
-        # load model for table top workspace
-        # OLEG TODO: allow specifiying sizes for waliking arena floor, and maybe add random generated obs later, terrain type etc....
         self.mujoco_arena = StairsArena()
 
         if self.use_indicator_object:
@@ -287,10 +272,7 @@ class ClimbStairs(RobotEnv):
         Returns:
             bool: True if cube has been lifted
         """
-        chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
-        x_travel_dist = self.sim.data.body_xpos[chassis_body_id][0]
-
-        return x_travel_dist > 3
+        return False
 
     def _visualization(self):
         """
