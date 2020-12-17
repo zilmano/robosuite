@@ -242,9 +242,6 @@ class StandUp(RobotEnv):
             initializer=None
         )
 
-        self.model.place_objects()
-
-
     def _get_reference(self):
         """
         Sets up references to important components. A reference is typically an

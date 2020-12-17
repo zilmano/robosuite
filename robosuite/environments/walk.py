@@ -310,7 +310,7 @@ class Walk(RobotEnv):
 
         return di
 
-   def _visualization(self):
+    def _visualization(self):
         """
         Do any needed visualization here. Overrides superclass implementations.
         """
