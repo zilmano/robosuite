@@ -9,6 +9,8 @@ This **robosuite** fork contains the robosuite locomotion project for CS391 Robo
 * Added Support for quadruped locomotion simulation
 * Added two quadruped robots A1 and Laikago
 * Added tasks, Walk, StandUp, and ClimbStairs (reward function was not defined at all for ClimbStairs, for the two other ones reward shaping requires tuning)
+* For now to control the robot, a workaround controller "LOCOMOTION_JOINT_TORQUE" was added. It is a hack, and the BaseController class shoud be modified 
+  to accomodate controls for both quadruped and manipulation?
 
 Since this is a robosuite fork, set-up the code and install just like the origial repository, please see here for details:
 https://robosuite.ai/docs/installation.html
@@ -20,14 +22,21 @@ Here is a minimalistic example:
 ```
 import numpy as np
 import robosuite as suite
+from robosuite import load_controller_config
+
+controller_conf = load_controller_config(default_controller="LOCOMOTION_JOINT_TORQUE")
 
 # create environment instance
 env = suite.make(
     env_name="Walk", # try with other tasks like "StandUp" or "ClimbStairs"
     robots="A1",  # try with "Laikago"
+    controller_configs=controller_conf,
     has_renderer=True,
+    render_camera="frontview",
     has_offscreen_renderer=False,
     use_camera_obs=False,
+    control_freq=10,
+    init_robot_pose=[0., 0., 0.45]
 )
 
 # reset the environment
