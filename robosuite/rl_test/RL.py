@@ -108,12 +108,12 @@ class Logger(BaseCallback):
 
 
 def make(has_renderer=False, init_robot_pose=(-1.37550484e-02,  5.21560077e-03,  8.78072546e-02), renderer=None, 
-         horizon=100, monitor=False):
+         horizon=100):
     controller_conf = load_controller_config(default_controller="LOCOMOTION_JOINT_TORQUE")
     os.makedirs(log_dir, exist_ok=True)
    
     rbs_env = suite.make(
-        env_name="StandUp",
+        env_name="Walk",
         robots="Laikago",
         controller_configs=controller_conf,
         has_renderer=has_renderer,
@@ -137,9 +137,8 @@ def make(has_renderer=False, init_robot_pose=(-1.37550484e-02,  5.21560077e-03, 
             ]
     )
 
-    
-    if monitor:
-            env = Monitor(env, log_dir)
+    if not has_renderer:
+        env = Monitor(env, log_dir)
 
     print("box:")
     print(env.action_space)
@@ -372,7 +371,7 @@ if __name__ == '__main__':
     view = "frontview"
     if arg.fullview == True:
         view = None
-    env = make(render, (0,  0,  0.5), view, arg.horizon)
+    env = make(render, (0, 0, 0.5), view, arg.horizon)
     if arg.train:
         if arg.alg == "TD3":
             train_TD3(env)
