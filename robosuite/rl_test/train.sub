@@ -1,0 +1,15 @@
++Group="Grad"
++Project="AI_ROBOTICS"
+
++ProjectDescription = "RL Quadruped locomotion"
+
+Universe = vanilla
+Executable = /u/ozilman/Projects/run2/train.sh
+Log = run.log.$(Process)
+Requirements = (Angrist)
+
+Input = /dev/null
+Error = error.log.$(Process)
+Output = output.log.$(Process)
+
+Queue
