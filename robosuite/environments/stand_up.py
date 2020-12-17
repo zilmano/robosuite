@@ -334,7 +334,7 @@ class StandUp(RobotEnv):
         Resets simulation internal configurations.
         """
         super()._reset_internal()
-        if self.init_robot_pose == (0, 0, 0.5):
+        if np.array_equal(self.init_robot_pose, np.array((0, 0, 0.5))):
             self.sim.data.qpos[self.robots[0]._ref_joint_pos_indexes] = \
                 np.zeros(self.robots[0].dof)
             self.sim.data.qvel[self.robots[0]._ref_joint_vel_indexes] = \
