@@ -10,7 +10,6 @@ from robosuite.robots import Quadruped
 from robosuite.models.arenas import WalkingArena
 from robosuite.models.tasks import LocomotionTask
 
-from robosuite.models.objects import BoxObject, CapsuleObject, BallObject, CylinderObject
 from robosuite.utils.transform_utils import mat2euler, quat2mat
 
 
@@ -110,7 +109,7 @@ class Walk(RobotEnv):
         controller_configs=None,
         use_camera_obs=True,
         use_object_obs=True,
-        init_robot_pose=(0,  0,  0.45),
+        init_robot_pose=(0, 0, 0.45),
         init_robot_ori=(0, 0, 0),
         reward_scale=1.0,
         reward_shaping=False,
@@ -252,7 +251,6 @@ class Walk(RobotEnv):
         # OLEG TODO: allow specifiying sizes for waliking arena floor, and maybe add random generated obs later, terrain type etc....
         self.mujoco_arena = WalkingArena()
 
-        self.mujoco_objects = None
         if self.use_indicator_object:
             self.mujoco_arena.add_pos_indicator()
 
@@ -263,13 +261,10 @@ class Walk(RobotEnv):
         self.model = LocomotionTask(
             mujoco_arena=self.mujoco_arena, 
             mujoco_robots=[self.robots[0].robot_model, ],
-            mujoco_objects=self.mujoco_objects,
+            mujoco_objects=None,
             visual_objects=None, 
             initializer=None
         )
-
-        self.model.place_objects()
-
 
     def _get_reference(self):
         """

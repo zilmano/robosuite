@@ -204,7 +204,6 @@ class Quadruped(Robot):
 
         # Update the controller goal if this is a new policy step
         if policy_step:
-            #print(f"action:{action}")
             self.controller.set_goal(action)
 
         # Now run the controller for a step
@@ -215,11 +214,6 @@ class Quadruped(Robot):
         self.torques = np.clip(torques, low, high)
 
         # Apply joint torque control
-        #if policy_step:
-            #print("Quadruped::Control::Applied Torques {}".format(self.torques))
-            #print("Quadruped::Control::actuator indexes {}".format(self._ref_joint_torq_actuator_indexes))
-
-            
         self.sim.data.ctrl[self._ref_joint_torq_actuator_indexes] = self.torques
 
         # If this is a policy step, also update buffers holding recent values of interest

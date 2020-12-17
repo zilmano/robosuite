@@ -170,9 +170,6 @@ class MujocoEnv(metaclass=EnvMeta):
         """
         # if we have an xml string, use that to create the sim. Otherwise, use the local model
         self.mjpy_model = load_model_from_xml(xml_string) if xml_string else self.model.get_model(mode="mujoco_py")
-        
-        # OLEG DBG: remove dbg line:
-        #self.model.save_model("locomotion_task_mjcf.xml")
 
         # Create the simulation instance and run a single step to make sure changes have propagated through sim state
         self.sim = MjSim(self.mjpy_model)
@@ -319,11 +316,6 @@ class MujocoEnv(metaclass=EnvMeta):
 
         # done if number of elapsed timesteps is greater than horizon
         self.done = (self.timestep >= self.horizon) and not self.ignore_done
-        if self.done:
-            chassis_body_id = self.sim.model.body_name2id(self.robots[0].robot_model.robot_base)
-            body_pos = self.sim.data.body_xpos[chassis_body_id]
-            print("Reward: {} body pos:{}".format(reward, body_pos))
-
         return reward, self.done, {}
 
     def reward(self, action):
