@@ -49,7 +49,7 @@ To modify the environment and/or robot change the 'env_name' and 'robots' variab
 To run a execution and visualization of the policy learned with the previous command do:
 ```python RL.py -alg SAC -horizon```
 
-To run an execution of some other save model 
+To run an execution of some other save model do:
 ```python RL.py -alg SAC  -filename <path to pickle zip file> -horizon <X>```
 
 The Reinforcement Learning was done using the stable-baselines3 library, so you'll need to install it first in order to run the script above:
