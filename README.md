@@ -43,6 +43,7 @@ for i in range(1000):
 The RL part was done with the script './robosutie/test_rl/RL.py'. Nothing fancy there, but in order to train an agent with max horizon of 100 the SAC algorithm do:
 
 ```python RL.py -train -alg SAC -horizon 100```
+
 To modify the environment and/or robot change the 'env_name' and 'robots' variables in the suite.make function inside RL.py. 
 
 To run a execution and visualization of the policy learned with the previous command do:
