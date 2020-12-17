@@ -41,14 +41,15 @@ for i in range(1000):
 
 
 The RL part was done with the script './robosutie/test_rl/RL.py'. Nothing fancy there, but in order to train an agent with max horizon of 100 the SAC algorithm do:
-To modify the environment and/or robot change the 'env_name' and 'robots' variables in the  
-python RL.py -train -alg SAC -horizon 100
+
+```python RL.py -train -alg SAC -horizon 100```
+To modify the environment and/or robot change the 'env_name' and 'robots' variables in the suite.make function inside RL.py. 
 
 To run a execution and visualization of the policy learned with the previous command do:
-python RL.py -alg SAC -horizon 100
+```python RL.py -alg SAC -horizon```
 
 To run an execution of some other save model 
-python RL.py -alg SAC  -filename <path to pickle zip file> -horizon <X>
+```python RL.py -alg SAC  -filename <path to pickle zip file> -horizon <X>```
 
 The Reinforcement Learning was done using the stable-baselines3 library, so you'll need to install it first in order to run the script above:
 https://stable-baselines3.readthedocs.io/en/master/guide/install.html
