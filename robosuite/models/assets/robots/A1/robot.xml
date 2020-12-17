@@ -1,0 +1,126 @@
+<mujoco model="a1_description">
+    <compiler angle="radian" />
+    <size njmax="500" nconmax="100" />
+    <asset>
+        <mesh name="trunk" file="meshes_A1/trunk.stl" />
+        <mesh name="hip" file="meshes_A1/hip.stl" />
+        <mesh name="thigh_mirror" file="meshes_A1/thigh_mirror.stl" />
+        <mesh name="thigh" file="meshes_A1/thigh.stl" />
+        <mesh name="calf" file="meshes_A1/calf.stl" />
+    </asset>
+    <default>
+        <default class="viz">
+            <geom contype="0" conaffinity="0" group="1" type="mesh" />
+        </default>
+        <default class="collision">
+            <geom group="0"/>
+        </default>
+        <default class="joint_dynamics">
+            <joint stiffness="0.5" damping="0.5" armature="0.1"/>
+        </default>
+    </default>
+    <actuator>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="FR_hip_joint" name="FR_hip_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="FL_hip_joint" name="FL_hip_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="RR_hip_joint" name="RR_hip_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="RL_hip_joint" name="RL_hip_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="FR_upper_joint" name="FR_upper_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="FL_upper_joint" name="FL_upper_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="RR_upper_joint" name="RR_upper_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="RL_upper_joint" name="RL_upper_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="FR_lower_joint" name="FR_lower_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="FL_lower_joint" name="FL_lower_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="RR_lower_joint" name="RR_lower_motor" gear="33.5"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="RL_lower_joint" name="RL_lower_motor" gear="33.5"/>
+    </actuator>
+
+    <worldbody>
+        <geom type="plane" size="1 1 0.1" pos = "0 0 0.0" rgba=".9 0 0 1"/>
+        <body name="chassis" pos="0. 0. 0.30">
+            <joint name="chassis_joint" type="free" />
+            <inertial pos="0.012731 0.002186 0.000515" mass="4.713" fullinertia="0.01683993 0.056579028 0.064713601 8.3902e-05 0.000597679 2.5134e-05"/>
+            <geom type="mesh" pos="0 0 0" mesh="trunk" rgba = "0.3 0.3 0.3 1 " class="viz"/>
+            <geom size="0.1335 0.097 0.057" type="box" rgba="1 0.423529 0.0392157 1" class="collision"/>
+            <body name="FR_hip" pos="0.183 -0.047 0">
+               <inertial pos="-0.00330625 -0.000750301 3.09555e-05" quat="0.50785 0.506604 0.491159 0.494169" mass="0.697" diaginertia="0.000907784 0.00065939 0.000575412" />
+                <joint name="FR_hip_joint" pos="0 0 0" axis="1 0 0" limited="true" range="-0.802851 0.802851" class="joint_dynamics"/>
+                <geom type="mesh" pos="0 0 0" quat="0 1 0 0" mesh="hip" rgba = "0.3 0.3 0.3 1 " class="viz"/>
+                <geom size="0.046 0.02" quat="0.707107 0.707107 0 0" type="cylinder" rgba="1 0.423529 0.0392157 1" class = "collision"/>
+                <geom size="0.041 0.016" pos="0 -0.081 0" quat="0.707107 0.707107 0 0" type="cylinder" class = "collision"/>
+                <body name="FR_upper" pos="0 -0.08505 0">
+                    <inertial pos="-0.003237 0.022327 -0.027326" quat="0.999125 -0.00256393 -0.0409531 -0.00806091" mass="1.013" diaginertia="0.00555739 0.00513936 0.00133944" />
+                    <joint name="FR_upper_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-1.0472 4.18879" class="joint_dynamics"/>
+                    <geom type="mesh" mesh="thigh_mirror" rgba = "0.3 0.3 0.3 1 " class="viz"/>
+                    <geom size="0.1 0.01225 0.017" pos="0 0 -0.1" quat="0.707107 0 0.707107 0" type="box" rgba="1 0.423529 0.0392157 1" class="collision" />
+                    <body name="FR_lower" pos="0 0 -0.2">
+                        <inertial pos="0.00472659 0 -0.131975" quat="0.706886 0.017653 0.017653 0.706886" mass="0.226" diaginertia="0.00340344 0.00339393 3.54834e-05" />
+                        <joint name="FR_lower_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.69653 -0.916298" class="joint_dynamics" />
+                        <geom type="mesh" mesh="calf" rgba = "0.3 0.3 0.3 1 " class="viz"/>
+                        <geom size="0.1 0.008 0.008" pos="0 0 -0.1" quat="0.707107 0 0.707107 0" type="box" rgba="1 0.423529 0.0392157 1" class="collision"/>
+                        <geom size="0.02" pos="0 0 -0.2" rgba="1 0.423529 0.0392157 1" class="collision"/>
+                    </body>
+                </body>
+            </body>
+            <body name="FL_hip" pos="0.183 0.047 0">
+                <inertial pos="-0.00330625 0.000750301 3.09555e-05" quat="0.494169 0.491159 0.506604 0.50785" mass="0.697" diaginertia="0.000907784 0.00065939 0.000575412" />
+                <joint name="FL_hip_joint" pos="0 0 0" axis="1 0 0" limited="true" range="-0.802851 0.802851" class="joint_dynamics"/>
+                <geom type="mesh" mesh="hip" rgba = "0.3 0.3 0.3 1 " class="viz"/>
+                <geom size="0.046 0.02" quat="0.707107 0.707107 0 0" type="cylinder" rgba="1 0.423529 0.0392157 1"  class="collision"/>
+                <geom size="0.041 0.016" pos="0 0.081 0" quat="0.707107 0.707107 0 0" type="cylinder" class="collision" />
+                <body name="FL_upper" pos="0 0.08505 0">
+                    <inertial pos="-0.003237 -0.022327 -0.027326" quat="0.999125 0.00256393 -0.0409531 0.00806091" mass="1.013" diaginertia="0.00555739 0.00513936 0.00133944" />
+                    <joint name="FL_upper_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-1.0472 4.18879" class="joint_dynamics"/>
+                    <geom type="mesh" mesh="thigh" rgba = "0.3 0.3 0.3 1 " class="viz"/>
+                    <geom size="0.1 0.01225 0.017" pos="0 0 -0.1" quat="0.707107 0 0.707107 0" type="box" rgba="1 0.423529 0.0392157 1" class="collision" />
+                    <body name="FL_lower" pos="0 0 -0.2">
+                        <inertial pos="0.00472659 0 -0.131975" quat="0.706886 0.017653 0.017653 0.706886" mass="0.226" diaginertia="0.00340344 0.00339393 3.54834e-05" />
+                        <joint name="FL_lower_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.69653 -0.916298" class="joint_dynamics"/>
+                        <geom type="mesh" mesh="calf" rgba = "0.3 0.3 0.3 1 " class="viz" />
+                        <geom size="0.1 0.008 0.008" pos="0 0 -0.1" quat="0.707107 0 0.707107 0" type="box" rgba="1 0.423529 0.0392157 1" class="collision"  />
+                        <geom size="0.02" pos="0 0 -0.2" rgba="1 0.423529 0.0392157 1" class="collision" />
+                    </body>
+                </body>
+            </body>
+            <body name="RR_hip" pos="-0.183 -0.047 0">
+                <inertial pos="0.00330625 -0.000750301 3.09555e-05" quat="0.491159 0.494169 0.50785 0.506604" mass="0.697" diaginertia="0.000907784 0.00065939 0.000575412" />
+                <joint name="RR_hip_joint" pos="0 0 0" axis="1 0 0" limited="true" range="-0.802851 0.802851" class="joint_dynamics" />
+                <geom type="mesh" mesh="hip" quat="0 0 0 1" rgba = "0.3 0.3 0.3 1 " class="viz"/>
+                <geom size="0.046 0.02" quat="0.707107 0.707107 0 0" type="cylinder" rgba="1 0.423529 0.0392157 1" class="collision" />
+                <geom size="0.041 0.016" pos="0 -0.081 0" quat="0.707107 0.707107 0 0" type="cylinder" class="collision"/>
+                <body name="RR_upper" pos="0 -0.08505 0">
+                    <inertial pos="-0.003237 0.022327 -0.027326" quat="0.999125 -0.00256393 -0.0409531 -0.00806091" mass="1.013" diaginertia="0.00555739 0.00513936 0.00133944" />
+                    <joint name="RR_upper_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-1.0472 4.18879" class="joint_dynamics" />
+                    <geom type="mesh" mesh="thigh_mirror" rgba = "0.3 0.3 0.3 1 " class="viz"/>
+                    <geom size="0.1 0.01225 0.017" pos="0 0 -0.1" quat="0.707107 0 0.707107 0" type="box" rgba="1 0.423529 0.0392157 1" class="collision" />
+                    <body name="RR_lower" pos="0 0 -0.2">
+                        <inertial pos="0.00472659 0 -0.131975" quat="0.706886 0.017653 0.017653 0.706886" mass="0.226" diaginertia="0.00340344 0.00339393 3.54834e-05" />
+                        <joint name="RR_lower_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.69653 -0.916298" class="joint_dynamics"/>
+                        <geom type="mesh" mesh="calf" rgba = "0.3 0.3 0.3 1 " class="viz" />
+                        <geom size="0.1 0.008 0.008" pos="0 0 -0.1" quat="0.707107 0 0.707107 0" type="box" rgba="1 0.423529 0.0392157 1" class="collision" />
+                        <geom size="0.02" pos="0 0 -0.2" rgba="1 0.423529 0.0392157 1" class="collision" />
+                    </body>
+                </body>
+            </body>
+            <body name="RL_hip" pos="-0.183 0.047 0">
+                <inertial pos="0.00330625 0.000750301 3.09555e-05" quat="0.506604 0.50785 0.494169 0.491159" mass="0.697" diaginertia="0.000907784 0.00065939 0.000575412" />
+                <joint name="RL_hip_joint" pos="0 0 0" axis="1 0 0" limited="true" range="-0.802851 0.802851" class="joint_dynamics"/>
+                <geom type="mesh" mesh="hip" quat="0 0 1 0" rgba = "0.3 0.3 0.3 1 " class="viz" />
+                <geom size="0.046 0.02" quat="0.707107 0.707107 0 0" type="cylinder" rgba="1 0.423529 0.0392157 1" class="collision" />
+                <geom size="0.041 0.016" pos="0 0.081 0" quat="0.707107 0.707107 0 0" type="cylinder" class="collision" />
+                <body name="RL_upper" pos="0 0.08505 0">
+                    <inertial pos="-0.003237 -0.022327 -0.027326" quat="0.999125 0.00256393 -0.0409531 0.00806091" mass="1.013" diaginertia="0.00555739 0.00513936 0.00133944" />
+                    <joint name="RL_upper_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-1.0472 4.18879" class="joint_dynamics" />
+                    <geom type="mesh" mesh="thigh" rgba = "0.3 0.3 0.3 1 " class="viz"/>
+                    <geom size="0.1 0.01225 0.017" pos="0 0 -0.1" quat="0.707107 0 0.707107 0" type="box" rgba="1 0.423529 0.0392157 1" class="collision"/>
+                    <body name="RL_lower" pos="0 0 -0.2">
+                        <inertial pos="0.00472659 0 -0.131975" quat="0.706886 0.017653 0.017653 0.706886" mass="0.226" diaginertia="0.00340344 0.00339393 3.54834e-05" />
+                        <joint name="RL_lower_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-2.69653 -0.916298" class="joint_dynamics"/>
+                        <geom type="mesh" mesh="calf" rgba = "0.3 0.3 0.3 1 " class="viz" />
+                        <geom size="0.1 0.008 0.008" pos="0 0 -0.1" quat="0.707107 0 0.707107 0" type="box" rgba="1 0.423529 0.0392157 1"  class="collision"/>
+                        <geom size="0.02" pos="0 0 -0.2" rgba="1 0.423529 0.0392157 1"  class="collision"/>
+                    </body>
+                </body>
+            </body>
+        </body>    
+    </worldbody>
+</mujoco>
