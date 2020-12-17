@@ -4,7 +4,7 @@
 
 -------
 
-This **robosuite** forks contains the robosuite  project for CS391 Robot Learning
+This **robosuite** fork contains the robosuite locomotion project for CS391 Robot Learning.
 
 * Added Support for quadruped locomotion simulation
 * Added two quadruped robots A1 and Laikago
@@ -17,6 +17,7 @@ In order to use the new robots, you can put the robot names "Laikago" or "A1", i
 The robots "A1" and "Laikago" will work only with the environment "Walk","StandUp" and "ClimbStairs". The other environments are intended for armed robots.
 Here is a minimalistic example:
 
+```
 import numpy as np
 import robosuite as suite
 
@@ -36,7 +37,7 @@ for i in range(1000):
     action = np.random.randn(env.robots[0].dof) # sample random action
     obs, reward, done, info = env.step(action)  # take action in the environment
     env.render()  # render on display
-
+```
 
 
 The RL part was done with the script './robosutie/test_rl/RL.py'. Nothing fancy there, but in order to train an agent with max horizon of 100 the SAC algorithm do:
