@@ -5,5 +5,6 @@ from robosuite.wrappers.domain_randomization_wrapper import DomainRandomizationW
 
 try:
     from robosuite.wrappers.gym_wrapper import GymWrapper
+    from robosuite.wrappers.clipper_gym_wrapper import ClipperGymWrapper
 except:
     print("Warning: make sure gym is installed if you want to use the GymWrapper.")

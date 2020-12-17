@@ -54,6 +54,8 @@ class GymWrapper(Wrapper):
         self.observation_space = spaces.Box(low=low, high=high)
         low, high = self.env.action_spec
         self.action_space = spaces.Box(low=low, high=high)
+        #OLEG DBG:
+        self.step_num = 0
 
     def _flatten_obs(self, obs_dict, verbose=False):
         """

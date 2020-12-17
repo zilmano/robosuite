@@ -9,7 +9,7 @@ from gym import spaces
 from robosuite.wrappers import Wrapper
 
 
-class GymWrapper(Wrapper):
+class ClipperGymWrapper(Wrapper):
     """
     Initializes the Gym wrapper. Mimics many of the required functionalities of the Wrapper class
     found in the gym.core module
@@ -99,6 +99,7 @@ class GymWrapper(Wrapper):
                 - (bool) whether the current episode is completed or not
                 - (dict) misc information
         """
+        action = np.clip(action, -0.85, 0.85)
         ob_dict, reward, done, info = self.env.step(action)
         return self._flatten_obs(ob_dict), reward, done, info
 
