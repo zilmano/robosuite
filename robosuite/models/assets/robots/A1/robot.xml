@@ -2,11 +2,11 @@
     <compiler angle="radian" />
     <size njmax="500" nconmax="100" />
     <asset>
-        <mesh name="trunk" file="meshes_A1/trunk.stl" />
-        <mesh name="hip" file="meshes_A1/hip.stl" />
-        <mesh name="thigh_mirror" file="meshes_A1/thigh_mirror.stl" />
-        <mesh name="thigh" file="meshes_A1/thigh.stl" />
-        <mesh name="calf" file="meshes_A1/calf.stl" />
+        <mesh name="trunk" file="meshes/trunk.stl" />
+        <mesh name="hip" file="meshes/hip.stl" />
+        <mesh name="thigh_mirror" file="meshes/thigh_mirror.stl" />
+        <mesh name="thigh" file="meshes/thigh.stl" />
+        <mesh name="calf" file="meshes/calf.stl" />
     </asset>
     <default>
         <default class="viz">
@@ -35,7 +35,6 @@
     </actuator>
 
     <worldbody>
-        <geom type="plane" size="1 1 0.1" pos = "0 0 0.0" rgba=".9 0 0 1"/>
         <body name="chassis" pos="0. 0. 0.30">
             <joint name="chassis_joint" type="free" />
             <inertial pos="0.012731 0.002186 0.000515" mass="4.713" fullinertia="0.01683993 0.056579028 0.064713601 8.3902e-05 0.000597679 2.5134e-05"/>

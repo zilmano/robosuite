@@ -3,7 +3,7 @@ from robosuite.models.robots.robot_model import RobotModel
 from robosuite.utils.mjcf_utils import xml_path_completion
 
 
-class Laikago(RobotModel):
+class A1(RobotModel):
     """
     Sawyer is a witty single-arm robot designed by Rethink Robotics.
 
@@ -13,7 +13,7 @@ class Laikago(RobotModel):
     """
 
     def __init__(self, idn=0, bottom_offset=(0, 0, 0)):
-        super().__init__(xml_path_completion("robots/laikago/robot.xml"), idn=idn, bottom_offset=bottom_offset)
+        super().__init__(xml_path_completion("robots/A1/robot.xml"), idn=idn, bottom_offset=bottom_offset)
 
     @property
     def dof(self):
@@ -29,25 +29,18 @@ class Laikago(RobotModel):
 
     @property
     def default_controller_config(self):
-        return "default_laikago"
+        return "default_A1"
 
     @property
     def init_qpos(self):
         # TODO: Determine which start is better
-        # return np.array([-0.5538, -0.8208, 0.4155, 1.8409, -0.4955, 0.6482, 1.9628])
-        return np.array([-5.79456531e-02,  1.25119669e+00, -2.83027023e+00,
-                        8.70697787e-01,  1.13331227e+00, -2.70602239e+00, -7.98841071e-02,
-                        1.24760025e+00, -2.82606956e+00,  8.56325817e-01,  1.14250950e+00,
-                        -2.71472435e+00])
+         return np.array([0.,  0., 0., 0.,
+                          0.,  0., 0., 0.,
+                          0.,  0., 0., 0.])
 
     @property
     def base_xpos_offset(self):
         raise NotImplementedError
-        '''return {
-            "bins": (-0.5, -0.1, 0),
-            "empty": (-0.6, 0, 0),
-            "table": lambda table_length: (-0.16 - table_length/2, 0, 0)
-        }'''
 
     @property
     def arm_type(self):
@@ -55,10 +48,10 @@ class Laikago(RobotModel):
 
     @property
     def _joints(self):
-        return ["FR_hip_joint", "FR_thigh_joint", "FR_calf_joint",
-                "FL_hip_joint", "FL_thigh_joint", "FL_calf_joint",
-                "RR_hip_joint", "RR_thigh_joint", "RR_calf_joint",
-                "RL_hip_joint", "RL_thigh_joint", "RL_calf_joint"]
+        return ["FR_hip_joint", "FR_upper_joint", "FR_lower_joint",
+                "FL_hip_joint", "FL_upper_joint", "FL_lower_joint",
+                "RR_hip_joint", "RR_upper_joint", "RR_lower_joint",
+                "RL_hip_joint", "RL_upper_joint", "RL_lower_joint"]
 
     @property
     def _eef_name(self):
@@ -73,18 +66,18 @@ class Laikago(RobotModel):
         return {
             "pos": [],  # No position actuators for sawyer
             "vel": [],  # No velocity actuators for sawyer
-            "torq": ["FR_hip_motor", "FR_thigh_motor", "FR_calf_motor",
-                     "FL_hip_motor", "FL_thigh_motor", "FL_calf_motor",
-                     "RR_hip_motor", "RR_thigh_motor", "RR_calf_motor",
-                     "RL_hip_motor", "RL_thigh_motor", "RL_calf_motor"]
+            "torq": ["FR_hip_motor", "FR_upper_motor", "FR_lower_motor",
+                     "FL_hip_motor", "FL_upper_motor", "FL_lower_motor",
+                     "RR_hip_motor", "RR_upper_motor", "RR_lower_motor",
+                     "RL_hip_motor", "RL_upper_motor", "RL_lower_motor"]
         }
 
     @property
     def _contact_geoms(self):
-        return ["FR_hip_collision", "FR_thigh_collision", "FR_calf_collision", "FR_foot_collision",
-                "FL_hip_collision", "FL_thigh_collision", "FL_calf_collision", "FL_foot_collision",
-                "RR_hip_collision", "RR_thigh_collision", "RR_calf_collision", "RR_foot_collision",
-                "RL_hip_collision", "RL_thigh_collision", "RL_calf_collision", "RL_foot_collision",
+        return ["FR_hip_collision", "FR_upper_collision", "FR_lower_collision", "FR_foot_collision",
+                "FL_hip_collision", "FL_upper_collision", "FL_lower_collision", "FL_foot_collision",
+                "RR_hip_collision", "RR_upper_collision", "RR_lower_collision", "RR_foot_collision",
+                "RL_hip_collision", "RL_upper_collision", "RL_lower_collision", "RL_foot_collision",
                 "chassis_collision"]
 
     @property
@@ -93,10 +86,10 @@ class Laikago(RobotModel):
 
     @property
     def _links(self):
-        return ["FR_hip", "FR_thigh", "FR_calf",
-                "FL_hip", "FL_thigh", "FL_calf",
-                "RR_hip", "RR_thigh", "RR_calf",
-                "RL_hip", "RL_thigh", "RL_calf"]
+        return ["FR_hip", "FR_upper", "FR_lower",
+                "FL_hip", "FL_upper", "FL_lower",
+                "RR_hip", "RR_upper", "RR_lower",
+                "RL_hip", "RL_upper", "RL_lower"]
 
     @property
     def robot_base_free_joint(self):

@@ -19,7 +19,7 @@ class RobotType(Enum):
 
 
 BIMANUAL_ROBOTS = {"Baxter"}
-QUADRUPED_ROBOTS = {"Laikago"}
+QUADRUPED_ROBOTS = {"Laikago","A1"}
 REGISTERED_ROBOTS = {}
 
 

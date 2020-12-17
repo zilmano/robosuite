@@ -7,3 +7,4 @@ from .kinova3_robot import Kinova3
 from .iiwa_robot import IIWA
 from .ur5e_robot import UR5e
 from .laikago_robot import Laikago
+from .A1_robot import A1
