@@ -47,7 +47,7 @@ The RL part was done with the script './robosutie/test_rl/RL.py'. Nothing fancy 
 To modify the environment and/or robot change the 'env_name' and 'robots' variables in the suite.make function inside RL.py. 
 
 To run a execution and visualization of the policy learned with the previous command do:
-```python RL.py -alg SAC -horizon```
+```python RL.py -alg SAC -horizon 100```
 
 To run an execution of some other save model do:
 ```python RL.py -alg SAC  -filename <path to pickle zip file> -horizon <X>```
